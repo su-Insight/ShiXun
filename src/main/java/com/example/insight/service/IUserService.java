@@ -1,5 +1,7 @@
 package com.example.insight.service;
 
+import com.example.insight.common.Result;
+import com.example.insight.controller.dto.UserDTO;
 import com.example.insight.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +15,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
 
+    UserDTO login(User user);
+
+    Result register(User user);
 }
