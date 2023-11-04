@@ -49,14 +49,24 @@ export default {
       collapseBtnClass: 'el-icon-s-fold',
       isCollapse: false,
       sideWidth: "200px",
-      logoTextShow: true
+      logoTextShow: true,
+	    user: {}
     }
   },
 	components: {
 		Aside,
 		Header
 	},
-  methods: {
+	methods: {
+		// getUser(){
+		// 	let username = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).username : ""
+		// 	if(username){
+		// 		// 后台获取User数据
+		// 		this.request.get("/user/" + username).then(res => {
+		// 			this.user = res.data
+		// 		})
+		// 	}
+		// },
     collapse(){
       this.isCollapse = !this.isCollapse
 	    console.log(this.sideWidth)

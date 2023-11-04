@@ -9,6 +9,7 @@ import java.util.List;
 
 import $!{package.Service}.$!{table.serviceName};
 import ${package.Entity}.${entity};
+import ${package.Common}.Result;
 
 
 #if(${restControllerStyle})
@@ -58,26 +59,34 @@ public class ${table.controllerName} {
      }
 
     @PostMapping
-    public boolean save(@RequestBody ${entity} ${table.entityPath}){
-        return ${table.entityPath}Service.saveOrUpdate(${table.entityPath});
+    public Result save(@RequestBody ${entity} ${table.entityPath}){
+        if(${table.entityPath}Service.saveOrUpdate(${table.entityPath})){
+             return Result.success();
+        }else{
+             return Result.error(Constants.CODE_600, "保存失败");
+        }
     }
 
     @DeleteMapping("/{id}")
-    public boolean delete(@PathVariable Integer id){
-        return ${table.entityPath}Service.removeById(id);
+    public Result delete(@PathVariable Integer id){
+        if(${table.entityPath}Service.removeById(id)){
+        return Result.success();
+        }else{
+        return Result.error(Constants.CODE_600, "删除失败");
+        }
     }
 
     @PostMapping("/del/batch")
-    public boolean deleteBatch(@RequestBody List<Integer> ids){
-        return ${table.entityPath}Service.removeByIds(ids);
+    public Result deleteBatch(@RequestBody List<Integer> ids){
+        return Result.success(${table.entityPath}Service.removeByIds(ids));
     }
 
     @GetMapping("/page")
-    public IPage<${entity}> findPage(@RequestParam Integer pageNum,
-                                     @RequestParam Integer pageSize) {
+    public Result findPage( @RequestParam Integer pageNum,
+                            @RequestParam Integer pageSize) {
         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("id");
-        return ${table.entityPath}Service.page(new Page<>(pageNum, pageSize), queryWrapper);
+        return Result.success(${table.entityPath}Service.page(new Page<>(pageNum, pageSize), queryWrapper));
     }
 }
 

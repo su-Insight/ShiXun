@@ -1,35 +1,74 @@
 <template>
-	<div>
-		<!-- 卡片区域 -->
-		<div>
-			<el-row :gutter="20" :span="10" style="margin-bottom: 40px">
-				<el-col :span="6">
-					<el-card>
-						45
-						<el-tag class="el-icon-arrow-down"></el-tag>
-					</el-card>
-				</el-col>
-				<el-col :span="6">
-					<el-card>
-						45
-					</el-card>
-				</el-col>
-				<el-col :span="6">
-					<el-card>
-						45
-					</el-card>
-				</el-col>
-				<el-col :span="6">
-					<el-card>
-						45
-					</el-card>
-				</el-col>
-			</el-row>
+	<div style="width: 100%; display: flex; flex-direction: row">
+		<!--  left	-->
+		<div style="width: 75%">
+			<!--	Num	-->
+			<div style="display: flex; justify-content: space-around">
+				<div class="card" style="display: flex; justify-content: center" v-for="item in numsData" :key="numsData">
+					<div style="display: flex">
+						<div class="harf-transparent" :style="'margin-right: 30px; display: flex; align-items: center; justify-content: center; background-color: ' + item.bgColor">
+							<div :class="item.icon + ' fs-36'" :style="'color: ' + item.color"></div>
+						</div>
+						<div style="display: flex; flex-direction: column; justify-content: space-around">
+							<div class="fs-14 color-gray">{{ item.title }}</div>
+							<div class="fs-24 color-black fw">{{ item.num }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--	Article	-->
+			<div style="display: flex; justify-content: space-around">
+				<div class="card" style="flex: 2; padding: 25px 58px; display: flex; justify-content: space-around">
+					<div style="display: flex" v-for="item in articleData" :key="articleData">
+						<div class="harf-transparent" :style="'margin-right: 30px; display: flex; align-items: center; justify-content: center; background-color: ' + item.bgColor">
+							<div :class="item.icon + ' fs-36'" :style="'color: ' + item.color"></div>
+						</div>
+						<div style="display: flex; flex-direction: column; justify-content: space-around">
+							<div class="fs-14 color-gray">{{ item.title }}</div>
+							<div class="fs-24 color-black fw">{{ item.num }}</div>
+						</div>
+					</div>
+				</div>
+				<div class="card" style="flex: 1">
+					<div style="display:flex; flex-direction: column">
+						<div class="color-gray" style="margin-bottom: 10px">文章数据</div>
+						<div class="data">
+							<i class="el-icon-star-on" style="margin-left: 0; color: #42b983"></i><i>5</i><i class="el-icon-s-comment" style="color: #efa078"></i><i>9</i>
+						</div>
+					</div>
+				</div>
+				<div class="card" style="flex: 1">
+					<div style="display:flex; flex-direction: column">
+						<div class="color-gray" style="margin-bottom: 10px">动态数据</div>
+						<div class="data">
+							<i class="el-icon-star-on" style="margin-left: 0; color: #42b983"></i><i>5</i><i class="el-icon-s-comment" style="color: #efa078"></i><i>9</i>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div style="padding-bottom: 20px" class="fs-16 fw">今日数据概览</div>
+				<div style="display: flex; justify-content: space-around">
+					<div class="card-gray" v-for="item in comparationData" :key="comparationData">
+						<div class="color-gray fs-14" style="margin-bottom: 10px">{{ item.title }}</div>
+						<div style="display: flex; justify-content: space-between">
+							<span class="fw fs-18">{{ item.today }}</span>
+							<span class="color-gray fs-12">昨天：{{ item.yesterday }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ref="mapChartsDom" class="card" style="width: 100%; height: 500px"></div>
 		</div>
-
-		<div id="main" style="width: 500px; height: 400px"></div>
-		<div ref="mapChartsDom" style="width: 800px; height: 600px"></div>
+		<!-- right	-->
+		<div style="width: 25%; margin-left: 20px; height: 100%">
+			<div class="card" style="width: 90%;">
+				<div style="padding:20px; background-color: rgba(160,228,255,0.47); border-radius: 5px;text-align: center; font-size: 18px; color: #2fd5dc">已运行<strong style="font-weight: bold; padding: 0 5px; font-size: 40px">6</strong>天</div>
+			</div>
+			<div id="main" class="card" style="width: 90%; height: 600px"></div>
+		</div>
 	</div>
+
 </template>
 
 <script>
@@ -39,7 +78,74 @@ export default {
 	name: "Home",
 	data(){
 		return {
-
+			comparationData: [
+				{
+					title: "今日新增用户(人)",
+					yesterday: 2,
+					today: '-'
+				},
+				{
+					title: "今日访问人数(人)",
+					yesterday: '-',
+					today: 5
+				},
+				{
+					title: "今日浏览量(人次)",
+					yesterday: 3,
+					today: 6
+				},
+				{
+					title: "今日获赞(个)",
+					yesterday: 9,
+					today: 1
+				}
+			],
+			articleData: [
+				{
+					icon: "el-icon-edit",
+					color: "#047bff",
+					bgColor: "rgba(79,157,232,0.5)",
+					title: "文章数量",
+					num: 25
+				},
+				{
+					icon: "el-icon-s-opportunity",
+					color: "#00e1ff",
+					bgColor: "rgba(52,217,241,0.5)",
+					title: "原创文章",
+					num: 236
+				}
+			],
+			numsData: [
+				{
+					icon: "el-icon-s-home",
+					color: "#43049a",
+					bgColor: "rgba(102,14,232,0.3)",
+					title: "总用户数量",
+					num: 25
+				},
+				{
+					icon: "el-icon-s-open",
+					color: "#ff0000",
+					bgColor: "rgba(250,91,121,0.3)",
+					title: "总浏览次数",
+					num: 236
+				},
+				{
+					icon: "el-icon-star-on",
+					color: "#12a600",
+					bgColor: "rgba(63,215,74,0.5)",
+					title: "总点赞次数",
+					num: 35
+				},
+				{
+					icon: "el-icon-s-comment",
+					color: "#bd6000",
+					bgColor: "rgba(225,149,100,0.5)",
+					title: "总评论条数",
+					num: 12
+				}
+			]
 		}
 	},
 	// 页面元素渲染后触发
@@ -66,7 +172,7 @@ export default {
 					}
 				},
 				title:{
-					text:'访客来源'
+					text:'访客地区分布'
 				},
 				tooltip: {},// 配置提示框，有这个配置项即可
 				series: [
@@ -127,12 +233,16 @@ export default {
 				trigger: 'item'
 			},
 			legend: {
-				top: '5%',
+				top: '50',
 				left: 'center'
+			},
+			title: {
+				text: "访客设备",
+				padding: 20
 			},
 			series: [
 				{
-					name: 'Access From',
+					name: '访客设备',
 					type: 'pie',
 					radius: ['40%', '70%'],
 					avoidLabelOverlap: false,
@@ -156,11 +266,12 @@ export default {
 						show: false
 					},
 					data: [
-						{ value: 1048, name: 'Search Engine' },
-						{ value: 735, name: 'Direct' },
-						{ value: 580, name: 'Email' },
-						{ value: 484, name: 'Union Ads' },
-						{ value: 300, name: 'Video Ads' }
+						{ value: 50, name: 'Windows' },
+						{ value: 735, name: 'Mac' },
+						{ value: 580, name: 'Linux' },
+						{ value: 484, name: 'Browser' },
+						{ value: 300, name: 'Android' },
+						{ value: 300, name: 'Android' }
 					]
 				}
 			]
@@ -176,8 +287,67 @@ export default {
 		})
 	}
 }
+
 </script>
 
-<style scoped>
+<style>
 
+	.el-main{
+		padding: 5px;
+	}
+	.card{
+		padding: 25px;
+		background-color: #fff;
+		border-radius: 6px;
+		margin: 10px;
+		width: 100%;
+	}
+	.card-gray{
+		padding: 25px;
+		background-color: #eee;
+		border-radius: 6px;
+		margin: 10px;
+		width: 100%;
+	}
+	.harf-transparent{
+		border-radius: 10px;
+		opacity: 0.2;
+		width: 60px;
+		height: 60px;
+		text-align: center;
+	}
+	.fs-36{
+		font-size: 36px;
+	}
+	.fs-24{
+		font-size: 24px;
+	}
+	.fs-20{
+		font-size: 20px;
+	}
+	.fs-16{
+		font-size: 16px;
+	}
+	.fs-14{
+		font-size: 14px;
+	}
+	.fs-12{
+		font-size: 12px;
+	}
+	.fw{
+		font-weight: bold;
+	}
+	body{
+		background-color: #F5F7F9;
+	}
+
+	.color-gray{
+		color: rgb(128, 128, 128);
+	}
+	.color-black{
+		color: black;
+	}
+	.data>i{
+		margin: 0 10px;
+	}
 </style>

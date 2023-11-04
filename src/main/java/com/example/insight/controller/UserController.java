@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.insight.common.Constants;
 import com.example.insight.common.Result;
 import com.example.insight.controller.dto.UserDTO;
+import com.example.insight.entity.Menu;
 import com.example.insight.utils.OssUtils;
 import com.example.insight.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,9 +75,18 @@ public class UserController {
         return Result.success(userService.list());
     }
 
-     @GetMapping("/{id}")
-     public Result findOne(@PathVariable Integer id){
-         return Result.success(userService.getById(id));
+     @GetMapping("/{username}")
+     public Result findOne(@PathVariable String username, HttpServletRequest request){
+        UserDTO userDTO = new UserDTO();
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username);
+        User user = userService.getOne(queryWrapper);
+        BeanUtil.copyProperties(user, userDTO);
+         userDTO.setToken(request.getHeader("token"));
+         // 设置用户菜单列表
+         List<Menu> roleMenus = userService.getRoleMenus(user.getRole());
+         userDTO.setMenus(roleMenus);
+        return Result.success(userDTO);
      }
 
     @PostMapping

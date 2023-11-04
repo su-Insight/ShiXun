@@ -62,8 +62,9 @@ export default {
 
 methods: {
 		logout(){
-			localStorage.clear()
-			this.$router.push("/login")
+			localStorage.removeItem("user");
+			localStorage.removeItem("menus");
+			this.$router.push("/login"); // 执行路由跳转
 			this.$message.success("退出成功")
 		}
 	}

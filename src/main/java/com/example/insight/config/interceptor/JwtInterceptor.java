@@ -7,6 +7,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.insight.common.Constants;
+import com.example.insight.config.AuthAccess;
 import com.example.insight.entity.User;
 import com.example.insight.exception.ServiceException;
 import com.example.insight.service.IUserService;
@@ -36,6 +37,12 @@ public class JwtInterceptor implements HandlerInterceptor {
         // 如果不是映射到方法直接通过
         if(!(handler instanceof HandlerMethod)){
             return true;
+        }else {
+            HandlerMethod h = (HandlerMethod) handler;
+            AuthAccess authAccess = h.getMethodAnnotation(AuthAccess.class);
+            if(authAccess != null){
+                return true;
+            }
         }
         // 执行认证
         if(StrUtil.isBlank(token)){

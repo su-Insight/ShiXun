@@ -6,11 +6,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.insight.common.Constants;
 import com.example.insight.common.Result;
 import com.example.insight.entity.File;
-import com.example.insight.entity.User;
 import com.example.insight.service.FileService;
 import com.example.insight.service.IUserService;
 import com.example.insight.utils.NumberUtil;
 import com.example.insight.utils.OssUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,15 +53,17 @@ public class FileController {
             String filePath = ossUtils.uploadFile(filename, file.getInputStream());
             File newFile = new File(fileInfo.getName(), file.getContentType(), NumberUtil.getNoMoreThanTwoDigits((double) file.getSize() /1024), filePath, fileInfo.getDes());
             fileService.save(newFile);
-            return Result.success();
+            return Result.success(filePath);
         }catch (Exception e){
             LOG.error(e);
             return Result.error(Constants.CODE_600, "系统错误，请重新上传");
         }
     }
 
+
     @PostMapping
-    private Result save(@RequestBody File file){
+    // @Cacheable(value = "enable",key="'enable'")
+    public Result save(@RequestBody File file){
         try{
             fileService.updateById(file);
             return Result.success();

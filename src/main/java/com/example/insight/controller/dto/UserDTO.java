@@ -1,8 +1,12 @@
 package com.example.insight.controller.dto;
 
 import cn.hutool.core.annotation.Alias;
+import com.example.insight.entity.Menu;
 import lombok.Data;
 import lombok.ToString;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: Insight
@@ -27,4 +31,7 @@ public class UserDTO {
     @Alias("头像")
     private String avatarUrl;
     private String token;
+    @Alias("角色")
+    private String role;
+    private List<Menu> menus;
 }
