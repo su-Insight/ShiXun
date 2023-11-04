@@ -27,16 +27,4 @@ mybatis-plus:
 
 
 
-al:
-  #  aliyun oss
-  oss:
-    endpoint: oss-cn-qingdao.aliyuncs.com
-    accessKeyId: LTAI5tQj4mWncDRttYyd832v
-    accessKeySecret: ISlVBqBTVo0lpm0gUmZbk5ItTP0y56
-    bucketName: cyber-gwh
-    url: https://cyber-gwh.oss-cn-qingdao.aliyuncs.com
-  #  aliyun video
-  vod:
-    regionId: cn-shanghai
-    accessKeyId: LTAI5tQj4mWncDRttYyd832v
-    accessKeySecret: ISlVBqBTVo0lpm0gUmZbk5ItTP0y56
+
